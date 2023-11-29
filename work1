@@ -1,0 +1,45 @@
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, Callb>
+
+TOKEN = '6826767099:AAGaEGAcWLtbDtiYizT4gxpcLv8WE47EAWY'
+
+def start(update: Update, context: CallbackContext) -> >
+    user = update.effective_user
+    update.message.reply_markdown_v2(
+        fr'Привет, {user.mention_markdown_v2()}!\n\n'
+        'Здесь ты можешь приобрести сборки которые я по>
+        reply_markup=main_keyboard()
+    )
+
+def main_keyboard() -> InlineKeyboardMarkup:
+    keyboard = [
+        [InlineKeyboardButton("Купить", callback_data='>
+        [InlineKeyboardButton("Список товаров", callbac>
+        [InlineKeyboardButton("Наша группа", url='https>
+        [InlineKeyboardButton("Отзывы покупателей", url>
+    ]
+    return InlineKeyboardMarkup(keyboard)
+
+def button_click(update: Update, context: CallbackConte>
+    query = update.callback_query
+    query.answer()
+
+    if query.data == 'buy':
+        update.effective_message.reply_text('Выбрана оп>
+    elif query.data == 'products':
+    update.effective_message.reply_text('Выбрана оп>
+
+def main() -> None:
+    updater = Updater(6826767099:AAGaEGAcWLtbDtiYizT4gxpcLv8WE47EAWY)
+
+    dp = updater.dispatcher
+
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(MessageHandler(Filters.regex('^Купит>
+
+    updater.start_polling()
+
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
